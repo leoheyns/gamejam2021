@@ -72,6 +72,7 @@ def main():
             if event.type == pygame.KEYDOWN:
                 keydown(event)
         input()
+
         draw()
         update()
     pygame.quit()
