@@ -1,7 +1,7 @@
 import pygame
 from World import World
 
-WIDTH, HEIGHT = 1024, 576
+WIDTH, HEIGHT = 1536, 864
 FPS = 60
 
 
@@ -27,6 +27,15 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_UP:
+                    world.move(1)
+                if event.key == pygame.K_RIGHT:
+                    world.move(2)
+                if event.key == pygame.K_DOWN:
+                    world.move(3)
+                if event.key == pygame.K_LEFT:
+                    world.move(4)
         update()
         draw()
     pygame.quit()
