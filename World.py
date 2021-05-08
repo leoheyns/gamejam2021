@@ -1,6 +1,13 @@
 from Room import Room
 from global_constants import * 
 import random
+import pygame
+import math
+
+pygame.font.init()
+
+font = pygame.font.SysFont('Comic Sans MS', 15)
+DOOR_PROB = 0.3
 
 def attempt_move(coords, direction):
     if direction == 1:
@@ -69,6 +76,17 @@ class World:
 
                 break
 
+        #open more doors
+        for room in self.room_dict.keys():
+                neighbours = surrounding_coords(room).intersection(self.room_dict.keys())
+                for neighbour in neighbours:
+                    #adjusted probability because each door gets 2 chances
+                    adjusted_prob = 1 - math.sqrt(1 - DOOR_PROB)
+                    if random.random() < adjusted_prob:
+                        r_door, n_door = door_pair(room, neighbour)
+                        self.room_dict[room].doors[r_door] = True
+                        self.room_dict[neighbour].doors[n_door] = True
+
         for room in self.room_dict.values():
             room.generate()
 
@@ -80,6 +98,8 @@ class World:
 
     def draw(self, WIN):
         self.room_dict[self.current_coords].draw(WIN)
+        textsurface = font.render(str(self.current_coords), False, (255,255,255))
+        WIN.blit(textsurface, (0,0))
         # self.rooms[self.current_coords[0]][self.current_coords[1]].draw(WIN)
     
     def update(self):
