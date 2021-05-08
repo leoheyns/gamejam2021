@@ -1,5 +1,7 @@
 from Player import Player
 import pygame
+
+from SoundWave import SoundWave
 from World import World
 from Timer import Timer
 from global_constants import *
@@ -19,14 +21,24 @@ sprite_group = pygame.sprite.Group()
 player = Player()
 sprite_group.add(player)
 
+waves = []
+SOUNDWAVE = pygame.USEREVENT+2
+
+
 def draw():
     temp_win = pygame.Surface((WIDTH, HEIGHT))
     world.draw(temp_win)
     timer.draw(temp_win)
     temp_win = pygame.transform.scale(temp_win, (WIDTH * 3, HEIGHT * 3))
-    WIN.blit(temp_win, (0,0))
+    WIN.blit(temp_win, (0, 0))
+
     # draw all sprites
     sprite_group.draw(WIN)
+
+    for wave in waves:
+        wave.draw(WIN, world.get_current_room())
+        if wave.remove:
+            waves.remove(wave)
 
     pygame.display.update()
 
@@ -85,12 +97,32 @@ def keydown(event):
         world.move(3)
 
 def main():
+    pygame.init()
     clock = pygame.time.Clock()
     run = True
-    timer.start
+    timer.start()
+    pygame.time.set_timer(SOUNDWAVE, 3000)
+    # waves.append(SoundWave(round(500 + 32 // 2), round(500 + 32 // 2), 16, (255, 0, 0), SCALE))
+
     while run:
         clock.tick(FPS)
+
+        for wave in waves:
+            if wave.radius + wave.vel < WIN.get_width():
+                if wave.count == 0:
+                    wave.radius += wave.vel
+                    wave.count = 25
+                else:
+                    wave.count -= 1
+            else:
+                waves.remove(wave)
+
         for event in pygame.event.get():
+            if event.type == SOUNDWAVE:
+                x = 500
+                y = 500
+                waves.append(SoundWave(x, y, 16, (255, 0, 0), SCALE))
+                # TODO change x, y to location of enemy
             if event.type == pygame.QUIT:
                 run = False
             if event.type == pygame.KEYDOWN:
