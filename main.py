@@ -3,6 +3,7 @@ import pygame
 from World import World
 from global_constants import *
 from Room import WALL
+import copy
 
 FPS = 60
 
@@ -28,19 +29,27 @@ def draw():
 
 
 def update():
-    if pygame.sprite.collide_mask(player, WALL):
-        print("collision!")
+    # pygame.sprite.spritecollide(player, )
+    pass
 
 def input():
     keys = pygame.key.get_pressed()
+    # has_wall = world.get_current_room().has_wall(*player.current_pos)
+    room = world.get_current_room()
+    pos = copy.deepcopy(player.current_pos)
+    # print(pos)
     if keys[pygame.K_w]:
-        player.move_up()
+        pos[1] -= 1
+        player.move_up(room.has_wall(*pos))
     elif keys[pygame.K_s]:
-        player.move_down()
-    if keys[pygame.K_a]:
-        player.move_left()
+        pos[1] += 1
+        player.move_down(room.has_wall(*pos))
+    elif keys[pygame.K_a]:
+        pos[0] -= 1
+        player.move_left(room.has_wall(*pos))
     elif keys[pygame.K_d]:
-        player.move_right()
+        pos[0] += 1
+        player.move_right(room.has_wall(*pos))
 
 def keydown(event):
     if event.key == pygame.K_UP:
@@ -63,8 +72,8 @@ def main():
             if event.type == pygame.KEYDOWN:
                 keydown(event)
         input()
-        update()
         draw()
+        update()
     pygame.quit()
 
 

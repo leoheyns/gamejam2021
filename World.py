@@ -30,11 +30,14 @@ class World:
 
 
     def draw(self, WIN):
-        print(self.current_coords)
+        # print(self.current_coords)
         self.rooms[self.current_coords[0]][self.current_coords[1]].draw(WIN)
     
     def update(self):
         pass
+
+    def get_current_room(self) -> Room:
+        return self.rooms[self.current_coords[0]][self.current_coords[1]]
 
     def move(self,direction):
         self.current_coords = attempt_move(self.current_coords, direction)
