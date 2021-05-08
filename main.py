@@ -29,42 +29,26 @@ def draw():
 
 
 def update():
-    # pygame.sprite.spritecollide(player, )
     pass
 
 def input():
     keys = pygame.key.get_pressed()
     room = world.get_current_room()
     pos = copy.deepcopy(player.current_pos)
+
     if keys[pygame.K_w]:
-        print(room.is_door(*pos))
-        if room.is_door(*pos):
-            world.move(0)
-            player.move_door(1)
-            pass
-        pos[1] -= 1
-        player.move_up(room.has_wall(*pos))
+        pos[1] -=1
+        player.move_up(room.has_wall(*pos), world)
     elif keys[pygame.K_s]:
-        print(room.is_door(*pos))
-        # if room.is_door(*pos):
-        #     print(f'door at {pos}')
-        #     world.move(2)
-        #     player.move_door(3)
-        #     pass
         pos[1] += 1
-        player.move_down(room.has_wall(*pos))
+        player.move_down(room.has_wall(*pos), world)
     elif keys[pygame.K_a]:
-        # if room.is_door(*pos):
-        #     world.move(3)
-        #     pass
         pos[0] -= 1
-        player.move_left(room.has_wall(*pos))
+        player.move_left(room.has_wall(*pos), world)
     elif keys[pygame.K_d]:
-        # if room.is_door(*pos):
-        #     world.move(1)
-        #     pass
         pos[0] += 1
-        player.move_right(room.has_wall(*pos))
+        player.move_right(room.has_wall(*pos), world)
+
 
 def keydown(event):
     if event.key == pygame.K_UP:
@@ -87,7 +71,6 @@ def main():
             if event.type == pygame.KEYDOWN:
                 keydown(event)
         input()
-
         draw()
         update()
     pygame.quit()
