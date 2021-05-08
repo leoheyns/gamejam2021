@@ -1,6 +1,5 @@
 from Room import Room
-
-WORLD_DIM = (5,5)
+from global_constants import * 
 
 def attempt_move(coords, direction):
     if direction == 1:
