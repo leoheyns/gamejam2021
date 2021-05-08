@@ -1,10 +1,9 @@
 import numpy as np
 import pygame
-WIDTH = 16
-HEIGTH = 9
+from global_constants import *
 
-SPRITESIZE = 32
-TILESIZE = 96
+WIDTH = ROOM_DIM[0]
+HEIGTH = ROOM_DIM[1]
 
 TILE = pygame.Rect(0, 0, SPRITESIZE, SPRITESIZE)
 
@@ -21,6 +20,7 @@ WALL = pygame.transform.scale(WALL, (TILESIZE, TILESIZE))
 
 DISTRIBUTION = [2,5,1]
 TILES = [WALL,GROUND, MOSSY_GROUND]
+
 
 def is_middle_of(i, n):
     if n % 2 == 0:
