@@ -5,7 +5,7 @@ from global_constants import *
 WIDTH = ROOM_DIM[0]
 HEIGTH = ROOM_DIM[1]
 
-TILE = pygame.Rect(0, 0, SPRITESIZE, SPRITESIZE)
+TILE = pygame.Rect(0, 0, TILESIZE, TILESIZE)
 
 GROUND = pygame.image.load('sprites/GameJam floor.png')
 GROUND = pygame.transform.scale(GROUND, (TILESIZE, TILESIZE))
