@@ -4,11 +4,11 @@ from World import World
 WIDTH, HEIGHT = 1536, 864
 FPS = 60
 
-
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("wie dit leest trekt een ad")
 
 world = World()
+
 
 def draw():
     world.draw(WIN)
@@ -18,8 +18,8 @@ def draw():
 def update():
     pass
 
-def main():
 
+def main():
     clock = pygame.time.Clock()
     run = True
     while run:
@@ -39,6 +39,7 @@ def main():
         update()
         draw()
     pygame.quit()
+
 
 if __name__ == "__main__":
     main()

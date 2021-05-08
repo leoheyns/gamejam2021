@@ -7,18 +7,20 @@ SPRITESIZE = 32
 TILESIZE = 96
 
 TILE = pygame.Rect(0, 0, SPRITESIZE, SPRITESIZE)
-GROUND = pygame.Surface((SPRITESIZE, SPRITESIZE))
-BROWN = (155, 118, 83)
-pygame.draw.rect(GROUND, BROWN, TILE)
+
+GROUND = pygame.image.load('sprites/GameJam floor.png')
 GROUND = pygame.transform.scale(GROUND, (TILESIZE, TILESIZE))
 
-WALL = pygame.Surface((SPRITESIZE, SPRITESIZE))
-GREY = (128, 128, 128)
-pygame.draw.rect(WALL, GREY, TILE)
+MOSSY_GROUND = pygame.image.load('sprites/GameJam floor mossy.png')
+MOSSY_GROUND = pygame.transform.scale(MOSSY_GROUND, (TILESIZE, TILESIZE))
+
+WALL = pygame.image.load('sprites/GameJam wall.png')
 WALL = pygame.transform.scale(WALL, (TILESIZE, TILESIZE))
 
-DISTRIBUTION = [1,3]
-TILES = [WALL,GROUND]
+
+
+DISTRIBUTION = [2,5,1]
+TILES = [WALL,GROUND, MOSSY_GROUND]
 
 def is_middle_of(i, n):
     if n % 2 == 0:
