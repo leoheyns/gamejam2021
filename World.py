@@ -105,6 +105,9 @@ class World:
     def update(self):
         pass
 
+    def get_current_room(self) -> Room:
+        return self.rooms[self.current_coords[0]][self.current_coords[1]]
+
     def move(self,direction):
         target_room = room_at_dir(self.current_coords, direction)
         if self.room_dict[self.current_coords].doors[direction]:
