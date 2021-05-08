@@ -36,13 +36,13 @@ def main():
                 run = False
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_UP:
-                    world.move(1)
+                    world.move(0)
                 if event.key == pygame.K_RIGHT:
-                    world.move(2)
+                    world.move(1)
                 if event.key == pygame.K_DOWN:
-                    world.move(3)
+                    world.move(2)
                 if event.key == pygame.K_LEFT:
-                    world.move(4)
+                    world.move(3)
         update()
         draw()
     pygame.quit()
