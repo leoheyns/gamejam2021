@@ -9,43 +9,48 @@ pygame.font.init()
 font = pygame.font.SysFont('Comic Sans MS', 15)
 DOOR_PROB = 0.3
 
+
 def attempt_move(coords, direction):
     if direction == 1:
         if coords[1] > 0:
-            return coords[0],coords[1]-1
+            return coords[0], coords[1] - 1
     elif direction == 2:
         if coords[0] < WORLD_DIM[0] - 1:
-            return coords[0] + 1,coords[1]
+            return coords[0] + 1, coords[1]
     elif direction == 3:
         if coords[1] < WORLD_DIM[1] - 1:
-            return coords[0],coords[1] + 1
+            return coords[0], coords[1] + 1
     elif direction == 4:
         if coords[0] > 0:
-            return coords[0] - 1,coords[1]
+            return coords[0] - 1, coords[1]
     return coords
+
 
 def room_at_dir(coords, direction):
     if direction == 0:
-            return coords[0],coords[1]-1
+        return coords[0], coords[1] - 1
     elif direction == 1:
-            return coords[0] + 1,coords[1]
+        return coords[0] + 1, coords[1]
     elif direction == 2:
-            return coords[0],coords[1] + 1
+        return coords[0], coords[1] + 1
     elif direction == 3:
-            return coords[0] - 1,coords[1]
+        return coords[0] - 1, coords[1]
+
 
 def surrounding_coords(coord):
-    return {(coord[0], coord[1] + 1), (coord[0] + 1, coord[1]), (coord[0], coord[1] - 1), (coord[0] -1, coord[1])}
+    return {(coord[0], coord[1] + 1), (coord[0] + 1, coord[1]), (coord[0], coord[1] - 1), (coord[0] - 1, coord[1])}
+
 
 def door_pair(pos1, pos2):
     if pos1[0] > pos2[0]:
-        return 3,1
+        return 3, 1
     if pos1[0] < pos2[0]:
-        return 1,3
+        return 1, 3
     if pos1[1] > pos2[1]:
-        return 0,2
+        return 0, 2
     if pos1[1] < pos2[1]:
-        return 2,0
+        return 2, 0
+
 
 class World:
 
@@ -115,4 +120,4 @@ class World:
         #     self.current_coords = target_room
 
     def reset(self):
-        self.current_coords = (0,0)
+        self.current_coords = (0, 0)
