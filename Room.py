@@ -99,6 +99,11 @@ class Room:
             else:
                 self.background[WIDTH-1, i] = 0
         
+    def has_wall(self, x, y):
+        try:
+            return self.background[x, y] == 0
+        except IndexError:
+            return False
 
     def has_wall(self, x, y):
         try:
@@ -106,31 +111,13 @@ class Room:
         except IndexError:
             return True
     def is_door(self, x, y):
-        print(self.door_coords)
-        if (x,y) in self.door_coords:
-            return True
-        # if y == 0 and (x == ROOM_DIM[0]/2 or x == ROOM_DIM[0]/2 - 1):
-        #     return self.doors[0]
-        # elif y == ROOM_DIM[1] - 1 and (x == ROOM_DIM[0]/2 or x == ROOM_DIM[0]/2 - 1):
-        #     return self.doors[2]
-        # noord/zuid
-        # if (is_middle_of(x, WIDTH)):
-            # if y == 0: return self.doors[0]
-            # if y == ROOM_DIM[1] - 1: return self.doors[2]
-        # elif (is_middle_of(y, HEIGTH)):
-            # if x == 0: return self.doors[3]
-            # if x == ROOM_DIM[0] - 1: return self.doors[1]
-        # return False
+        return x == 0 or x == ROOM_DIM[0] - 1 or y == 0 or y == ROOM_DIM[1] - 1
 
     def draw(self, WIN):
         blits = []
         for i in range(WIDTH):
             for j in range(HEIGTH):
                 blits.append((TILES[self.background[i,j]], (i * TILESIZE, j * TILESIZE)))
-                # ontzichtbare muur voor collision detection
-                # if TILES[self.background[i,j]] == WALL:
-                    # rect = pygame.draw.rect(TILES[self.background[i,j]], (0,0,0), [i * TILESIZE, j * TILESIZE, TILESIZE, TILESIZE])
-                    # self.walls.add(TILES[self.background[i,j]])
 
         WIN.blits(blits)
 
