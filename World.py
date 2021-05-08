@@ -49,7 +49,6 @@ def door_pair(pos1, pos2):
 
 class World:
 
-    rooms = []
     current_coords = (0,0)
 
     room_dict = {}
@@ -90,13 +89,10 @@ class World:
         for room in self.room_dict.values():
             room.generate()
 
-        for x in range(WORLD_DIM[0]):
-            self.rooms.append([])
-            for y in range(WORLD_DIM[1]):
-                try:
-                    self.rooms[x].append(self.room_dict[x, y])
-                except KeyError:
-                    self.rooms[x].append(Room())
+        # for x in range(WORLD_DIM[0]):
+        #     self.rooms.append([])
+        #     for y in range(WORLD_DIM[1]):
+        #         self.rooms[x].append(Room([True,True,True,True]))
 
 
     def draw(self, WIN):
@@ -109,7 +105,7 @@ class World:
         pass
 
     def get_current_room(self) -> Room:
-        return self.rooms[self.current_coords[0]][self.current_coords[1]]
+        return self.room_dict[self.current_coords]
 
     def move(self,direction):
         target_room = room_at_dir(self.current_coords, direction)
@@ -117,3 +113,6 @@ class World:
             self.current_coords = target_room
         # if target_room in self.room_dict.keys():
         #     self.current_coords = target_room
+
+    def reset(self):
+        self.current_coords = (0,0)
