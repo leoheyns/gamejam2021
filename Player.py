@@ -5,9 +5,12 @@ from time import sleep
 class Player(pygame.sprite.Sprite):
 
     current_pos = [4, 4]
+    last_time = 0
 
     def __init__(self):
         super().__init__()
+
+        self.last_time = pygame.time.get_ticks()
 
         self.size = list(map(lambda x: x * SCALE, PLAYERSIZE))
 
@@ -21,6 +24,13 @@ class Player(pygame.sprite.Sprite):
 
 
     def _move(self, x, y):
+        time = pygame.time.get_ticks()
+
+        if time < self.last_time + MOVEDELAY:
+            return
+
+        self.last_time = time
+
         print(self.current_pos)
         self.rect.x += x * self.size[0]
         self.rect.y += y * self.size[1]
@@ -40,14 +50,12 @@ class Player(pygame.sprite.Sprite):
         else:
             self.current_pos[0] = self.current_pos[0] + x
 
-        sleep(MOVEDELAY)
 
     def _move_to(self, x, y):
         self.rect.x = x * self.size[0]
         self.rect.y = y * self.size[1]
 
         self.current_pos = [x, y]
-        sleep(MOVEDELAY)
 
     def move_up(self, wall):
         # 1 tile naar boven
