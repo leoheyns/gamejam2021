@@ -25,23 +25,28 @@ class Player(pygame.sprite.Sprite):
         self.rect.x += x * self.size[0]
         self.rect.y += y * self.size[1]
 
-        # todo deuren enzo
         tile = TILESIZE * SCALE
         if self.rect.y < 0:
             self.rect.y = 0
-        elif self.rect.y > (HEIGHT * SCALE - tile):
+        elif self.rect.y >= (HEIGHT * SCALE - tile):
             self.rect.y = (HEIGHT * SCALE - tile)
         else:
             self.current_pos[1] = self.current_pos[1] + y
 
         if self.rect.x < 0:
             self.rect.x = 0
-        elif self.rect.x > (WIDTH * SCALE - tile):
+        elif self.rect.x >= (WIDTH * SCALE - tile):
             self.rect.x = (WIDTH * SCALE - tile)
         else:
             self.current_pos[0] = self.current_pos[0] + x
 
+        sleep(MOVEDELAY)
 
+    def _move_to(self, x, y):
+        self.rect.x = x * self.size[0]
+        self.rect.y = y * self.size[1]
+
+        self.current_pos = [x, y]
         sleep(MOVEDELAY)
 
     def move_up(self, wall):
@@ -56,3 +61,15 @@ class Player(pygame.sprite.Sprite):
 
     def move_left(self, wall):
         if not wall: self._move(-1, 0)
+
+    def move_door(self, direction):
+        print("move_door")
+        if direction == 1:
+            self._move_to(4,4)
+            pass
+        elif direction == 2:
+            pass
+        elif direction == 3:
+            self._move_to(4,4)
+        elif direction == 4:
+            pass
