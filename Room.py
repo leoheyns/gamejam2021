@@ -118,10 +118,6 @@ class Room:
         for i in range(WIDTH):
             for j in range(HEIGTH):
                 blits.append((TILES[self.background[i,j]], (i * TILESIZE, j * TILESIZE)))
-                # ontzichtbare muur voor collision detection
-                # if TILES[self.background[i,j]] == WALL:
-                    # rect = pygame.draw.rect(TILES[self.background[i,j]], (0,0,0), [i * TILESIZE, j * TILESIZE, TILESIZE, TILESIZE])
-                    # self.walls.add(TILES[self.background[i,j]])
 
         WIN.blits(blits)
 
