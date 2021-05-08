@@ -51,10 +51,11 @@ class Room:
         self.doors = [False] * 4
         self.door_coords = [(-1,-1)] * 4
         pass
-        
+
     def generate(self):
         rand_values = np.random.randint(0, sum(DISTRIBUTION), (WIDTH,HEIGTH))
         self.background = np.zeros_like(rand_values)
+
         for i in range(WIDTH):
             for j in range(HEIGTH):
                 for k in range(len(DISTRIBUTION)):
@@ -104,6 +105,11 @@ class Room:
         except IndexError:
             return False
 
+    def has_wall(self, x, y):
+        try:
+            return self.background[x, y] == 0
+        except IndexError:
+            return True
     def is_door(self, x, y):
         return x == 0 or x == ROOM_DIM[0] - 1 or y == 0 or y == ROOM_DIM[1] - 1
 
@@ -112,6 +118,10 @@ class Room:
         for i in range(WIDTH):
             for j in range(HEIGTH):
                 blits.append((TILES[self.background[i,j]], (i * TILESIZE, j * TILESIZE)))
+                # ontzichtbare muur voor collision detection
+                # if TILES[self.background[i,j]] == WALL:
+                    # rect = pygame.draw.rect(TILES[self.background[i,j]], (0,0,0), [i * TILESIZE, j * TILESIZE, TILESIZE, TILESIZE])
+                    # self.walls.add(TILES[self.background[i,j]])
 
         WIN.blits(blits)
 
