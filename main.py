@@ -53,13 +53,13 @@ def input():
 
 def keydown(event):
     if event.key == pygame.K_UP:
-        world.move(1)
+        world.move(0)
     if event.key == pygame.K_RIGHT:
-        world.move(2)
+        world.move(1)
     if event.key == pygame.K_DOWN:
-        world.move(3)
+        world.move(2)
     if event.key == pygame.K_LEFT:
-        world.move(4)
+        world.move(3)
 
 def main():
     clock = pygame.time.Clock()
