@@ -1,0 +1,4 @@
+TILESIZE = 32
+
+ROOM_DIM = (16,9)
+WORLD_DIM = (5,5)

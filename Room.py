@@ -1,24 +1,24 @@
 import numpy as np
 import pygame
-WIDTH = 16
-HEIGTH = 9
+from global_constants import *
 
-SPRITESIZE = 32
-TILESIZE = 96
+WIDTH = ROOM_DIM[0]
+HEIGTH = ROOM_DIM[1]
 
-TILE = pygame.Rect(0, 0, SPRITESIZE, SPRITESIZE)
-GROUND = pygame.Surface((SPRITESIZE, SPRITESIZE))
+TILE = pygame.Rect(0, 0, TILESIZE, TILESIZE)
+GROUND = pygame.Surface((TILESIZE, TILESIZE))
 BROWN = (155, 118, 83)
 pygame.draw.rect(GROUND, BROWN, TILE)
-GROUND = pygame.transform.scale(GROUND, (TILESIZE, TILESIZE))
+# GROUND = pygame.transform.scale(GROUND, (TILESIZE, TILESIZE))
 
-WALL = pygame.Surface((SPRITESIZE, SPRITESIZE))
+WALL = pygame.Surface((TILESIZE, TILESIZE))
 GREY = (128, 128, 128)
 pygame.draw.rect(WALL, GREY, TILE)
-WALL = pygame.transform.scale(WALL, (TILESIZE, TILESIZE))
+# WALL = pygame.transform.scale(WALL, (TILESIZE, TILESIZE))
 
 DISTRIBUTION = [1,3]
 TILES = [WALL,GROUND]
+
 
 def is_middle_of(i, n):
     if n % 2 == 0:
