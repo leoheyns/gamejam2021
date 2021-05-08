@@ -1,3 +1,4 @@
+import pygame
 TILESIZE   = 32
 PLAYERSIZE = [32, 32]
 SPRITESIZE = 32
@@ -11,3 +12,5 @@ SCALE = 3
 MOVEDELAY = 0.1
 ROOM_DIM = (16,9)
 ROOM_COUNT = 25
+
+TIMER_ZERO = pygame.USEREVENT + 1

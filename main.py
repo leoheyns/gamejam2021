@@ -1,9 +1,11 @@
 from Player import Player
 import pygame
 from World import World
+from Timer import Timer
 from global_constants import *
 from Room import WALL
 import copy
+
 
 FPS = 60
 
@@ -11,6 +13,7 @@ WIN = pygame.display.set_mode((WIDTH * SCALE, HEIGHT * SCALE))
 pygame.display.set_caption("wie dit leest trekt een ad")
 
 world = World()
+timer = Timer(FPS * 60)
 
 sprite_group = pygame.sprite.Group()
 player = Player()
@@ -19,9 +22,9 @@ sprite_group.add(player)
 def draw():
     temp_win = pygame.Surface((WIDTH, HEIGHT))
     world.draw(temp_win)
+    timer.draw(temp_win)
     temp_win = pygame.transform.scale(temp_win, (WIDTH * 3, HEIGHT * 3))
     WIN.blit(temp_win, (0,0))
-
     # draw all sprites
     sprite_group.draw(WIN)
 
@@ -30,7 +33,12 @@ def draw():
 
 def update():
     # pygame.sprite.spritecollide(player, )
-    pass
+    timer.update()
+
+def reset():
+    timer.reset()
+    world.reset()
+    timer.start()
 
 def input():
     keys = pygame.key.get_pressed()
@@ -64,6 +72,7 @@ def keydown(event):
 def main():
     clock = pygame.time.Clock()
     run = True
+    timer.start
     while run:
         clock.tick(FPS)
         for event in pygame.event.get():
@@ -71,6 +80,11 @@ def main():
                 run = False
             if event.type == pygame.KEYDOWN:
                 keydown(event)
+            else:
+                print(event.type)
+            if event.type == TIMER_ZERO:
+                print("timer expired")
+                reset()
         input()
 
         draw()
