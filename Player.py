@@ -1,32 +1,39 @@
 from global_constants import *
 import pygame
+from time import sleep
 
 class Player(pygame.sprite.Sprite):
 
-    def __init__(self, scale):
+    def __init__(self):
         super().__init__()
 
-        self.size = list(map(lambda x: x * scale, PLAYERSIZE))
+        self.size = list(map(lambda x: x * SCALE, PLAYERSIZE))
 
-        self.image = pygame.Surface(self.size)
-        self.image.fill((0, 0, 0)) # tijdelijke kleur
-        self.image.set_colorkey((0, 0, 0))
+        self.image = pygame.image.load('./sprites/GameJam Miel.png')
+        self.image = pygame.transform.scale(self.image, self.size)
 
-        pygame.draw.rect(self.image, (0, 255, 0), [0, 0, self.size[0], self.size[1]])
 
         self.rect = self.image.get_rect()
 
 
     def _move(self, x, y):
-        self.rect.x += x * (self.size[0]/2)
-        self.rect.y += y * (self.size[1]/2)
 
-        # niet van het scherm af schieten
+        self.rect.x += x * self.size[0]
+        self.rect.y += y * self.size[1]
+
         # todo deuren enzo
+        tile = TILESIZE * SCALE
         if self.rect.y < 0:
             self.rect.y = 0
-        # todo niet van onderkant van scherm af
-        # of collision detection ofzo
+        elif self.rect.y > (HEIGHT * SCALE - tile):
+            self.rect.y = (HEIGHT * SCALE - tile)
+
+        if self.rect.x < 0:
+            self.rect.x = 0
+        elif self.rect.x > (WIDTH * SCALE - tile):
+            self.rect.x = (WIDTH * SCALE - tile)
+
+        sleep(MOVEDELAY)
 
     def move_up(self):
         # 1 tile naar boven

@@ -17,7 +17,6 @@ WALL = pygame.image.load('sprites/GameJam wall.png')
 WALL = pygame.transform.scale(WALL, (TILESIZE, TILESIZE))
 
 
-
 DISTRIBUTION = [2,5,1]
 TILES = [WALL,GROUND, MOSSY_GROUND]
 
@@ -78,6 +77,10 @@ class Room:
             for j in range(HEIGTH):
                 blits.append((TILES[self.background[i,j]], (i * TILESIZE, j * TILESIZE)))
 
+                # ontzichtbare muur voor collision detection
+                if TILES[self.background[i,j]] == WALL:
+                    pygame.draw.rect(WALL, (0,0,0), [i * TILESIZE, j * TILESIZE, TILESIZE, TILESIZE])
+                    
         WIN.blits(blits)
     
     def update(self):
