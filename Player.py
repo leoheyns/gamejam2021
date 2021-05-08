@@ -1,11 +1,12 @@
+from global_constants import *
 import pygame
 
 class Player(pygame.sprite.Sprite):
 
-    def __init__(self):
+    def __init__(self, scale):
         super().__init__()
 
-        self.size = [32, 32]
+        self.size = list(map(lambda x: x * scale, PLAYERSIZE))
 
         self.image = pygame.Surface(self.size)
         self.image.fill((0, 0, 0)) # tijdelijke kleur
@@ -17,8 +18,8 @@ class Player(pygame.sprite.Sprite):
 
 
     def _move(self, x, y):
-        self.rect.x += x * 32
-        self.rect.y += y * 32
+        self.rect.x += x * (self.size[0]/2)
+        self.rect.y += y * (self.size[1]/2)
 
         # niet van het scherm af schieten
         # todo deuren enzo
