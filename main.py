@@ -9,7 +9,6 @@ FPS = 60
 SCALE = 3
 WIDTH, HEIGHT = ROOM_DIM[0] * TILESIZE, ROOM_DIM[1] * TILESIZE
 
-
 WIN = pygame.display.set_mode((WIDTH * SCALE, HEIGHT * SCALE))
 pygame.display.set_caption("wie dit leest trekt een ad")
 
@@ -29,8 +28,6 @@ def draw():
     sprite_group.draw(WIN)
 
     pygame.display.update()
-
-
 
 
 def update():
@@ -53,7 +50,6 @@ def input():
         pass
 
 def main():
-
     clock = pygame.time.Clock()
     run = True
     while run:
@@ -74,6 +70,7 @@ def main():
         update()
         draw()
     pygame.quit()
+
 
 if __name__ == "__main__":
     main()
