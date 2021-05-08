@@ -137,7 +137,6 @@ def pause():
                 x, y = pygame.mouse.get_pos()
                 if 444 <= x <= 1092:
                     if 67 <= y <= 216:
-                        print("hi")
                         return
                 if 562 <= x <= 973:
                     if 260 <= y <= 407:
