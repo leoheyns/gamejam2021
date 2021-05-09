@@ -46,6 +46,10 @@ def reset():
     player.reset()
     timer.start()
 
+    for room in world.room_dict.values():
+        for enemy in room.enemies:
+            enemy.waves = []
+
 
 def input():
     keys = pygame.key.get_pressed()
