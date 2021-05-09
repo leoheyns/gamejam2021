@@ -14,6 +14,7 @@ class Enemy:
         self.x = x
         self.y = y
         self.cooldown = start_cooldown
+        self.start_cooldown = start_cooldown
         self.waves = []
         self.room = room
 
@@ -28,6 +29,7 @@ class Enemy:
         after = len(blits)
 
     def update(self):
+        print(self.cooldown)
         if self.cooldown <= 0:
             #todo spawn soundwave
             self.waves.append(SoundWave(round(self.x + 32 // 2), round(self.y + 32 // 2), 16, (255, 0, 0, 75)))
@@ -46,4 +48,4 @@ class Enemy:
 
     def reset(self):
         self.waves = []
-        self.cooldown = 1
+        self.cooldown = self.start_cooldown
