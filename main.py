@@ -72,19 +72,8 @@ def input():
 
 
 def keydown(event):
-    # if event.key == pygame.K_UP:
-    #     world.move(0)
-    # if event.key == pygame.K_RIGHT:
-    #     world.move(1)
-    # if event.key == pygame.K_DOWN:
-    #     world.move(2)
-    # if event.key == pygame.K_LEFT:
-    #     world.move(3)
     if event.key == pygame.K_ESCAPE:
         pause()
-    # if event.key == pygame.K_0:
-        # for enemy in world.get_current_room().enemies:
-            # enemy.reset()
 
 def info():
     asset = resource_path('sprites/GameJam Info Screen.png')
