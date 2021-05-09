@@ -5,7 +5,8 @@ from World import World
 from Timer import Timer
 from global_constants import *
 import copy
-
+from moviepy.editor import *
+import moviepy
 
 FPS = 60
 
@@ -19,6 +20,7 @@ sprite_group = pygame.sprite.Group()
 player = Player()
 sprite_group.add(player)
 
+
 def draw():
     temp_win = pygame.Surface((WIDTH, HEIGHT))
     world.draw(temp_win)
@@ -28,8 +30,6 @@ def draw():
 
     # draw all sprites
     sprite_group.draw(WIN)
-
-
 
     pygame.display.update()
 
@@ -53,7 +53,7 @@ def input():
     pos = copy.deepcopy(player.current_pos)
 
     if keys[pygame.K_w]:
-        pos[1] -=1
+        pos[1] -= 1
         player.move_up(room.has_wall(*pos), world)
     elif keys[pygame.K_s]:
         pos[1] += 1
@@ -78,12 +78,12 @@ def keydown(event):
     if event.key == pygame.K_ESCAPE:
         pause()
 
+
 def info():
     titlescreen = pygame.image.load('sprites/GameJam Info Screen.png')
     titlescreen = pygame.transform.scale(titlescreen, (WIDTH * 3, HEIGHT * 3))
     font = pygame.font.SysFont('Comic Sans MS', 30)
     text = "You are the great Miel Monteur. The planet is invaded by minions that emit dangerous sound waves. "
-
 
     textsurface = font.render(text, False, (255, 255, 255))
     text2 = "You only have one weapon, a wall that you can put between yourself and the sound wave."
@@ -104,8 +104,8 @@ def info():
                         return
         WIN.blit(titlescreen, (0, 0))
         WIN.blit(textsurface, (80, HEIGHT * 1.2))
-        WIN.blit(textsurface1, (80, (HEIGHT * 1.2)+50))
-        WIN.blit(textsurface2, (80, (HEIGHT * 1.2)+100))
+        WIN.blit(textsurface1, (80, (HEIGHT * 1.2) + 50))
+        WIN.blit(textsurface2, (80, (HEIGHT * 1.2) + 100))
         pygame.display.update()
         clock.tick(FPS)
 
@@ -170,15 +170,12 @@ def pause():
 
 
 def game():
-
     clock = pygame.time.Clock()
     run = True
     timer.start()
 
     while run:
         clock.tick(FPS)
-
-
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -192,6 +189,7 @@ def game():
         for enemy in world.get_current_room().enemies:
             for wave in enemy.waves:
                 if wave.on_miel(player.current_pos[0], player.current_pos[1]):
+                    play_death_video()
                     reset()
 
         input()
@@ -199,12 +197,21 @@ def game():
         update()
 
 
+def play_death_video():
+    clip = VideoFileClip('video/death.mp4').resize((WIDTH * 3, HEIGHT * 3))
+    clip.preview()
+    for event in pygame.event.get():
+        if event == pygame.QUIT:
+            pygame.quit()
+            quit()
+
 
 def main():
     pygame.init()
     intro()
     game()
     pygame.quit()
+
 
 if __name__ == "__main__":
     main()
