@@ -124,11 +124,20 @@ class Room:
                 if (self.background[i,j] == 1 or self.background[i,j] == 2) & (FREE_SPACES[j][i] == "#"):
                     grounds.append((i,j))
         
+        cooldowns_2 = [0,120]
+        cooldowns_3 = [0,80,160]
+
+
         if self.gen_enemies:
             e_count = random.choices([1,2,3], weights=[10,60,30], k=1)[0]
             e_poss = random.sample(grounds, e_count)
-            for pos in e_poss:
-                self.enemies.append(Enemy(pos[0] * TILESIZE, pos[1] * TILESIZE, self))
+            for i in range(e_count):
+                if e_count == 1:
+                    self.enemies.append(Enemy(e_poss[i][0] * TILESIZE, e_poss[i][1] * TILESIZE, self))
+                elif e_count == 2:
+                    self.enemies.append(Enemy(e_poss[i][0] * TILESIZE, e_poss[i][1] * TILESIZE, self, start_cooldown = cooldowns_2[i]))
+                elif e_count == 3:
+                    self.enemies.append(Enemy(e_poss[i][0] * TILESIZE, e_poss[i][1] * TILESIZE, self, start_cooldown = cooldowns_3[i]))
 
         
     def has_wall(self, x, y):
