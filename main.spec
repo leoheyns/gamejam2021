@@ -9,7 +9,9 @@ a = Analysis(['main.py'],
              binaries=[],
              datas=[
                  ('sounds/*.wav', 'sounds'),
-                 ('sprites/*.png', 'sprites')
+                 ('sprites/*.png', 'sprites'),
+                 ('video/*.mp4', 'video'),
+                 ('video/*.mpg', 'video'),
              ],
              hiddenimports=[],
              hookspath=[],
