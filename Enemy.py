@@ -6,7 +6,7 @@ asset = resource_path('sprites/GameJam minion enemy.png')
 ENEMY = pygame.image.load(asset)
 ENEMY = pygame.transform.scale(ENEMY, (TILESIZE, TILESIZE))
 
-INTERVAL = 240
+INTERVAL = 300
 
 
 class Enemy:

@@ -1,3 +1,4 @@
+from Player import Player
 import pygame
 pygame.mixer.init()
 
@@ -6,12 +7,13 @@ from World import World, items
 from Timer import Timer
 from global_constants import *
 import copy
-
+from moviepy.editor import *
+import moviepy
 
 FPS = 60
 
 WIN = pygame.display.set_mode((WIDTH * SCALE, HEIGHT * SCALE))
-pygame.display.set_caption("Miel Monteur Saves The World!")
+pygame.display.set_caption("Miel Monteur saves the world!")
 
 world = World()
 timer = Timer(FPS * 60)
@@ -19,6 +21,7 @@ timer = Timer(FPS * 60)
 sprite_group = pygame.sprite.Group()
 player = Player(world)
 sprite_group.add(player)
+
 
 def draw():
     temp_win = pygame.Surface((WIDTH, HEIGHT))
@@ -29,11 +32,11 @@ def draw():
 
     # draw all sprites
     sprite_group.draw(WIN)
+
     pygame.display.update()
 
 
 def update():
-    # pygame.sprite.spritecollide(player, )
     timer.update()
     world.update()
 
@@ -58,7 +61,7 @@ def input():
     pos = copy.deepcopy(player.current_pos)
 
     if keys[pygame.K_w]:
-        pos[1] -=1
+        pos[1] -= 1
         player.move_up(room.has_wall(*pos), world)
     elif keys[pygame.K_s]:
         pos[1] += 1
@@ -72,27 +75,14 @@ def input():
 
 
 def keydown(event):
-    # if event.key == pygame.K_UP:
-    #     world.move(0)
-    # if event.key == pygame.K_RIGHT:
-    #     world.move(1)
-    # if event.key == pygame.K_DOWN:
-    #     world.move(2)
-    # if event.key == pygame.K_LEFT:
-    #     world.move(3)
     if event.key == pygame.K_ESCAPE:
         pause()
-    # if event.key == pygame.K_0:
-        # for enemy in world.get_current_room().enemies:
-            # enemy.reset()
 
 def info():
-    asset = resource_path('sprites/GameJam Info Screen.png')
-    titlescreen = pygame.image.load(asset)
+    titlescreen = pygame.image.load('sprites/GameJam Info Screen.png')
     titlescreen = pygame.transform.scale(titlescreen, (WIDTH * 3, HEIGHT * 3))
     font = pygame.font.SysFont('Comic Sans MS', 30)
     text = "You are the great Miel Monteur. The planet is invaded by minions that emit dangerous sound waves. "
-
 
     textsurface = font.render(text, False, (255, 255, 255))
     text2 = "You only have one weapon, a wall that you can put between yourself and the sound wave."
@@ -113,15 +103,14 @@ def info():
                         return
         WIN.blit(titlescreen, (0, 0))
         WIN.blit(textsurface, (80, HEIGHT * 1.2))
-        WIN.blit(textsurface1, (80, (HEIGHT * 1.2)+50))
-        WIN.blit(textsurface2, (80, (HEIGHT * 1.2)+100))
+        WIN.blit(textsurface1, (80, (HEIGHT * 1.2) + 50))
+        WIN.blit(textsurface2, (80, (HEIGHT * 1.2) + 100))
         pygame.display.update()
         clock.tick(FPS)
 
 
 def intro():
-    asset = resource_path('sprites/GameJam Titel Engels.png')
-    titlescreen = pygame.image.load(asset)
+    titlescreen = pygame.image.load('sprites/GameJam Titel Engels.png')
     titlescreen = pygame.transform.scale(titlescreen, (WIDTH * 3, HEIGHT * 3))
     clock = pygame.time.Clock()
     intro = True
@@ -149,8 +138,7 @@ def intro():
 
 
 def pause():
-    asset = resource_path('sprites/GameJam menu.png')
-    menuscreen = pygame.image.load(asset)
+    menuscreen = pygame.image.load('sprites/GameJam menu.png')
     menuscreen = pygame.transform.scale(menuscreen, (WIDTH * 3, HEIGHT * 3))
     clock = pygame.time.Clock()
     pause = True
@@ -170,7 +158,8 @@ def pause():
                         main()
                 if 468 <= x <= 1068:
                     if 450 <= y <= 597:
-                        game()
+                        reset()
+                        return
                 if 602 <= x <= 934:
                     if 644 <= y <= 793:
                         pygame.quit()
@@ -179,9 +168,32 @@ def pause():
         pygame.display.update()
         clock.tick(FPS)
 
+def win():
+    menuscreen = pygame.image.load('sprites/GameJam win.png')
+    menuscreen = pygame.transform.scale(menuscreen, (WIDTH * 3, HEIGHT * 3))
+    clock = pygame.time.Clock()
+    win = True
+    while win:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                x, y = pygame.mouse.get_pos()
+                if 41 <= x <= 539:
+                    if 532 <= y <= 676:
+                        reset()
+                        return
+                if 1021 <= x <= 1430:
+                    if 530 <= y <= 679:
+                        pygame.quit()
+                        quit()
+        WIN.blit(menuscreen, (0, 0))
+        pygame.display.update()
+        clock.tick(FPS)
+
 
 def game():
-
     clock = pygame.time.Clock()
     run = True
     timer.start()
@@ -201,6 +213,7 @@ def game():
         for enemy in world.get_current_room().enemies:
             for wave in enemy.waves:
                 if wave.on_miel(player.current_pos[0], player.current_pos[1]):
+                    play_death_video()
                     reset()
 
         if world.get_current_room() in world.room_items.keys():
@@ -212,9 +225,27 @@ def game():
 
                     items[world.room_items[room][0]].play(-1)
 
+        winner = True
+
+        for room in world.room_items.keys():
+            if not room.item_found:
+                winner = False
+
+        if winner:
+            win()
+
         input()
         draw()
         update()
+
+
+def play_death_video():
+    clip = VideoFileClip('video/death.mp4').resize((WIDTH * 3, HEIGHT * 3))
+    clip.preview()
+    for event in pygame.event.get():
+        if event == pygame.QUIT:
+            pygame.quit()
+            quit()
 
 
 def main():
@@ -222,6 +253,7 @@ def main():
     intro()
     game()
     pygame.quit()
+
 
 if __name__ == "__main__":
     main()
