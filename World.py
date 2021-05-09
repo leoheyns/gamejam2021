@@ -14,10 +14,10 @@ DOOR_PROB = 0.3
 
 pygame.mixer.init()
 
-items = {pygame.image.load('sprites/GameJam Bongos.png'): pygame.mixer.Sound('sounds/Bongo.wav'),
-         pygame.image.load('sprites/GameJam Guitar.png'): pygame.mixer.Sound('sounds/Guitar.wav'),
-         pygame.image.load('sprites/GameJam keyboard.png'): pygame.mixer.Sound('sounds/Keyboard.wav'),
-         pygame.image.load('sprites/GameJam Trumpet.png'): pygame.mixer.Sound('sounds/Trumpet.wav')}
+items = {pygame.image.load(resource_path('sprites/GameJam Bongos.png')): pygame.mixer.Sound(resource_path('sounds/Bongo.wav')),
+         pygame.image.load(resource_path('sprites/GameJam Guitar.png')): pygame.mixer.Sound(resource_path('sounds/Guitar.wav')),
+         pygame.image.load(resource_path('sprites/GameJam keyboard.png')): pygame.mixer.Sound(resource_path('sounds/Keyboard.wav')),
+         pygame.image.load(resource_path('sprites/GameJam Trumpet.png')): pygame.mixer.Sound(resource_path('sounds/Trumpet.wav'))}
 
 
 def attempt_move(coords, direction):

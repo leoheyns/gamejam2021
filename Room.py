@@ -10,22 +10,28 @@ ROOMHEIGHT = ROOM_DIM[1]
 
 TILE = pygame.Rect(0, 0, TILESIZE, TILESIZE)
 
-GROUND = pygame.image.load('sprites/GameJam floor.png')
+asset = resource_path('sprites/GameJam floor.png')
+GROUND = pygame.image.load(asset)
 GROUND = pygame.transform.scale(GROUND, (TILESIZE, TILESIZE))
 
-MOSSY_GROUND = pygame.image.load('sprites/GameJam floor mossy.png')
+asset = resource_path('sprites/GameJam floor mossy.png')
+MOSSY_GROUND = pygame.image.load(asset)
 MOSSY_GROUND = pygame.transform.scale(MOSSY_GROUND, (TILESIZE, TILESIZE))
 
-SAND_MOSSY_GROUND = pygame.image.load('sprites/sandstone_mossy.png')
+asset = resource_path('sprites/sandstone_mossy.png')
+SAND_MOSSY_GROUND = pygame.image.load(asset)
 SAND_MOSSY_GROUND = pygame.transform.scale(SAND_MOSSY_GROUND, (TILESIZE, TILESIZE))
 
-SAND_GROUND = pygame.image.load('sprites/sandstone_ground.png')
+asset = resource_path('sprites/sandstone_ground.png')
+SAND_GROUND = pygame.image.load(asset)
 SAND_GROUND = pygame.transform.scale(SAND_GROUND, (TILESIZE, TILESIZE))
 
-WALL = pygame.image.load('sprites/GameJam wall.png')
+asset = resource_path('sprites/GameJam wall.png')
+WALL = pygame.image.load(asset)
 WALL = pygame.transform.scale(WALL, (TILESIZE, TILESIZE))
 
-ENEMY = pygame.image.load('sprites/GameJam minion enemy.png')
+asset = resource_path('sprites/GameJam minion enemy.png')
+ENEMY = pygame.image.load(asset)
 ENEMY = pygame.transform.scale(ENEMY, (TILESIZE, TILESIZE))
 
 FREE_SPACES = [
