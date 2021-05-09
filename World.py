@@ -1,3 +1,4 @@
+import SoundWave
 from Room import Room
 from global_constants import * 
 import random
@@ -54,12 +55,13 @@ def door_pair(pos1, pos2):
 
 class World:
 
-    current_coords = (0,0)
+    current_coords = (0, 0)
 
     room_dict = {}
 
     def __init__(self):
         self.room_dict[(0,0)] = Room()
+        SoundWave.calculate_circles(16)
 
         for i in range(ROOM_COUNT - 1):
             while True:

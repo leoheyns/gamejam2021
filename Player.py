@@ -1,18 +1,17 @@
 from global_constants import *
 import pygame
-from time import sleep
+
 
 class Player(pygame.sprite.Sprite):
-
     current_pos = [4, 4]
-    last_time   = 0
-    tp_time     = 0
+    last_time = 0
+    tp_time = 0
 
     def __init__(self):
         super().__init__()
 
         self.last_time = pygame.time.get_ticks()
-        self.tp_time   = self.tp_time
+        self.tp_time = self.tp_time
 
         self.size = list(map(lambda x: x * SCALE, PLAYERSIZE))
 
@@ -24,7 +23,6 @@ class Player(pygame.sprite.Sprite):
         self.rect.x = self.current_pos[0] * TILESIZE * SCALE
         self.rect.y = self.current_pos[1] * TILESIZE * SCALE
 
-
     def _move(self, x, y, world):
         time = pygame.time.get_ticks()
 
@@ -33,15 +31,11 @@ class Player(pygame.sprite.Sprite):
 
         self.last_time = time
 
-        if (self._can_move(self.current_pos[0] + x, self.current_pos[1] + y)):
+        if self._can_move(self.current_pos[0] + x, self.current_pos[1] + y):
             self.rect.x += x * self.size[0]
             self.rect.y += y * self.size[1]
             self.current_pos[0] = self.current_pos[0] + x
             self.current_pos[1] = self.current_pos[1] + y
-
-
-        print(self.current_pos)
-
 
     def _can_move(self, toX, toY):
         cur = self.current_pos
@@ -51,7 +45,6 @@ class Player(pygame.sprite.Sprite):
         elif toY < 0 or toY >= ROOM_DIM[1]:
             return False
         return True
-
 
     def _move_to(self, x, y):
         time = pygame.time.get_ticks()
@@ -69,19 +62,19 @@ class Player(pygame.sprite.Sprite):
 
     def move_up(self, wall, world):
         if not wall: self._move(0, -1, world)
-        if world.get_current_room().is_door(*self.current_pos): 
+        if world.get_current_room().is_door(*self.current_pos):
             self.move_door(0)
             world.move(0)
 
     def move_down(self, wall, world):
         if not wall: self._move(0, 1, world)
-        if world.get_current_room().is_door(*self.current_pos): 
+        if world.get_current_room().is_door(*self.current_pos):
             self.move_door(2)
             world.move(2)
 
     def move_right(self, wall, world):
         if not wall: self._move(1, 0, world)
-        if world.get_current_room().is_door(*self.current_pos): 
+        if world.get_current_room().is_door(*self.current_pos):
             self.move_door(1)
             world.move(1)
 
@@ -90,7 +83,6 @@ class Player(pygame.sprite.Sprite):
         if world.get_current_room().is_door(*self.current_pos):
             self.move_door(3)
             world.move(3)
-
 
     def move_door(self, direction):
         print("move_door")
