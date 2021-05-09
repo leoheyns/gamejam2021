@@ -18,7 +18,7 @@ world = World()
 timer = Timer(FPS * 60)
 
 sprite_group = pygame.sprite.Group()
-player = Player()
+player = Player(world)
 sprite_group.add(player)
 
 waves = []
@@ -34,9 +34,6 @@ def draw():
 
     # draw all sprites
     sprite_group.draw(WIN)
-
-
-
     pygame.display.update()
 
 
