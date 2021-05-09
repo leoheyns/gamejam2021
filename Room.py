@@ -1,6 +1,7 @@
 import numpy as np
 import pygame
 from global_constants import *
+import random
 
 WIDTH = ROOM_DIM[0]
 HEIGTH = ROOM_DIM[1]
@@ -12,6 +13,13 @@ GROUND = pygame.transform.scale(GROUND, (TILESIZE, TILESIZE))
 
 MOSSY_GROUND = pygame.image.load('sprites/GameJam floor mossy.png')
 MOSSY_GROUND = pygame.transform.scale(MOSSY_GROUND, (TILESIZE, TILESIZE))
+
+SAND_MOSSY_GROUND = pygame.image.load('sprites/sandstone_mossy.png')
+SAND_MOSSY_GROUND = pygame.transform.scale(SAND_MOSSY_GROUND, (TILESIZE, TILESIZE))
+
+SAND_GROUND = pygame.image.load('sprites/sandstone_ground.png')
+SAND_GROUND = pygame.transform.scale(SAND_GROUND, (TILESIZE, TILESIZE))
+
 
 WALL = pygame.image.load('sprites/GameJam wall.png')
 WALL = pygame.transform.scale(WALL, (TILESIZE, TILESIZE))
@@ -46,8 +54,15 @@ class Room:
     walls = pygame.sprite.Group()
     doors = []
     door_coords = []
+    biome = None
 
     def __init__(self):
+        self.biome = random.choice([0,1])
+        if self.biome == 0:
+            self.TILES = [WALL,GROUND, MOSSY_GROUND]
+        elif self.biome == 1:
+            self.TILES = [WALL, SAND_GROUND, SAND_MOSSY_GROUND]
+
         self.doors = [False] * 4
         self.door_coords = [(-1,-1)] * 4
         pass
@@ -114,10 +129,11 @@ class Room:
         return x == 0 or x == ROOM_DIM[0] - 1 or y == 0 or y == ROOM_DIM[1] - 1
 
     def draw(self, WIN):
+        print(self.biome)
         blits = []
         for i in range(WIDTH):
             for j in range(HEIGTH):
-                blits.append((TILES[self.background[i,j]], (i * TILESIZE, j * TILESIZE)))
+                blits.append((self.TILES[self.background[i,j]], (i * TILESIZE, j * TILESIZE)))
 
         WIN.blits(blits)
 

@@ -1,5 +1,6 @@
-import pygame
 import math
+
+import pygame
 
 from global_constants import *
 
@@ -11,8 +12,7 @@ def round16(num):
 circles = {}
 
 
-def calculate_circles(radius, scale):
-    # Calculates all circles at the start, which can be used later
+def calculate_circles(radius):
     for width in range(2, WIDTH):
         offs = set()
 
@@ -41,13 +41,16 @@ class SoundWave (object):
         self.color = color
         self.scale = scale
 
-        if len(circles) == 0:
-            calculate_circles(16, 3)
+    def draw_pixel(self, window, pixel):
+        rect = pygame.Rect(pixel[0] * self.scale, pixel[1] * self.scale, 16 * self.scale, 16 * self.scale)
+        blit = pygame.Surface(pygame.Rect(rect).size, pygame.SRCALPHA)
+        blit.fill(self.color)
+        window.blit(blit, (pixel[0] * self.scale, pixel[1] * self.scale))
 
     def draw_previous(self, window):
         for pixel in self.previous_pixels:
-            pygame.draw.rect(window, (0, 0, 0),
-                             (pixel[0]*self.scale, pixel[1]*self.scale, 16*self.scale, 16*self.scale))
+            self.draw_pixel(window, pixel)
+
 
     def draw(self, window, room):
         if self.radius//16 < 2:  # Do not draw if the radius is too small, so it starts outside the enemy
@@ -78,8 +81,7 @@ class SoundWave (object):
 
         for pixel in self.pixel_coords:
             if 0 <= pixel[0] <= ROOM_DIM[0]*TILESIZE and 0 <= pixel[1] <= ROOM_DIM[1]*TILESIZE:
-                pygame.draw.rect(window, (0, 0, 0),
-                                 (pixel[0]*self.scale, pixel[1]*self.scale, 16*self.scale, 16*self.scale))
+                self.draw_pixel(window, pixel)
 
         self.previous_pixels = self.pixel_coords.copy()
         self.pixel_coords.clear()
