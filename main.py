@@ -1,7 +1,7 @@
 from Player import Player
 import pygame
 
-from SoundWave import SoundWave
+from SoundWave import calculate_circles, SoundWave
 from World import World
 from Timer import Timer
 from global_constants import *
@@ -163,14 +163,12 @@ def game():
             if event.type == SOUNDWAVE:
                 x = 500
                 y = 500
-                waves.append(SoundWave(x, y, 16, (255, 0, 0), SCALE))
+                waves.append(SoundWave(x, y, 16, (255, 0, 0, 75), SCALE))
                 # TODO change x, y to location of enemy
             if event.type == pygame.QUIT:
                 run = False
             if event.type == pygame.KEYDOWN:
                 keydown(event)
-            else:
-                print(event.type)
             if event.type == TIMER_ZERO:
                 print("timer expired")
                 reset()
