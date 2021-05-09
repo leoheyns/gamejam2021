@@ -34,30 +34,32 @@ class SoundWave (object):
     count = 25
     pixel_coords = set()
 
-    def __init__(self, x, y, radius, color, scale):
+    def __init__(self, x, y, radius, color, scale = 1):
         self.x = x
         self.y = y
         self.radius = radius
         self.color = color
         self.scale = scale
 
-    def draw_pixel(self, window, pixel):
+    def draw_pixel(self, window, pixel, blits):
+
         rect = pygame.Rect(pixel[0] * self.scale, pixel[1] * self.scale, 16 * self.scale, 16 * self.scale)
         blit = pygame.Surface(pygame.Rect(rect).size, pygame.SRCALPHA)
         blit.fill(self.color)
-        window.blit(blit, (pixel[0] * self.scale, pixel[1] * self.scale))
+        # window.blit(blit, (pixel[0] * self.scale, pixel[1] * self.scale))
+        blits.append((blit, (pixel[0] * self.scale, pixel[1] * self.scale)))
 
-    def draw_previous(self, window):
+    def draw_previous(self, window, blits):
         for pixel in self.previous_pixels:
-            self.draw_pixel(window, pixel)
+            self.draw_pixel(window, pixel, blits)
 
 
-    def draw(self, window, room):
+    def draw(self, window, room, blits):
         if self.radius//16 < 2:  # Do not draw if the radius is too small, so it starts outside the enemy
             return
 
         if self.count != 0:  # Do not recalculate all lines every frame
-            self.draw_previous(window)
+            self.draw_previous(window, blits)
             return
 
         # Variables that store the tile of the center
@@ -81,7 +83,10 @@ class SoundWave (object):
 
         for pixel in self.pixel_coords:
             if 0 <= pixel[0] <= ROOM_DIM[0]*TILESIZE and 0 <= pixel[1] <= ROOM_DIM[1]*TILESIZE:
-                self.draw_pixel(window, pixel)
+                self.draw_pixel(window, pixel, blits)
 
         self.previous_pixels = self.pixel_coords.copy()
         self.pixel_coords.clear()
+    
+    def update():
+        pass

@@ -60,7 +60,7 @@ class World:
     room_dict = {}
 
     def __init__(self):
-        self.room_dict[(0,0)] = Room()
+        self.room_dict[(0,0)] = Room(gen_enemies=False)
         SoundWave.calculate_circles(16)
 
         for i in range(ROOM_COUNT - 1):
@@ -109,7 +109,7 @@ class World:
         # self.rooms[self.current_coords[0]][self.current_coords[1]].draw(WIN)
     
     def update(self):
-        pass
+        self.get_current_room().update()
 
     def get_current_room(self) -> Room:
         return self.room_dict[self.current_coords]

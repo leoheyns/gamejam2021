@@ -15,7 +15,7 @@ WIN = pygame.display.set_mode((WIDTH * SCALE, HEIGHT * SCALE))
 pygame.display.set_caption("wie dit leest trekt een ad")
 
 world = World()
-timer = Timer(FPS * 5)
+timer = Timer(FPS * 60)
 
 sprite_group = pygame.sprite.Group()
 player = Player()
@@ -35,10 +35,7 @@ def draw():
     # draw all sprites
     sprite_group.draw(WIN)
 
-    for wave in waves:
-        wave.draw(WIN, world.get_current_room())
-        if wave.remove:
-            waves.remove(wave)
+
 
     pygame.display.update()
 
@@ -46,6 +43,7 @@ def draw():
 def update():
     # pygame.sprite.spritecollide(player, )
     timer.update()
+    world.update()
 
 def reset():
     timer.reset()
@@ -187,22 +185,14 @@ def game():
     while run:
         clock.tick(FPS)
 
-        for wave in waves:
-            if wave.radius + wave.vel < WIN.get_width():
-                if wave.count == 0:
-                    wave.radius += wave.vel
-                    wave.count = 25
-                else:
-                    wave.count -= 1
-            else:
-                waves.remove(wave)
+
 
         for event in pygame.event.get():
             if event.type == SOUNDWAVE:
                 x = 500
                 y = 500
-                waves.append(SoundWave(x, y, 16, (255, 0, 0, 75), SCALE))
-                # TODO change x, y to location of enemy
+                # waves.append(SoundWave(x, y, 16, (255, 0, 0, 75), SCALE))
+                # # TODO change x, y to location of enemy
             if event.type == pygame.QUIT:
                 run = False
             if event.type == pygame.KEYDOWN:
