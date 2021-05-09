@@ -1,12 +1,11 @@
 import math
 
-import pygame
-
 from global_constants import *
 
 
 def round16(num):
     return int(16 * round(float(num) / 16))
+
 
 circles = {}
 
@@ -39,6 +38,12 @@ class SoundWave(object):
         self.radius = radius
         self.color = color
         self.scale = scale
+
+    def on_miel(self, x, y):
+        for pixel in self.previous_pixels:
+            if (round(pixel[0] / 32), round(pixel[1] / 32)) == (x, y):
+                return True
+        return False
 
     def draw_pixel(self, window, pixel, blits):
 

@@ -143,12 +143,6 @@ class Room:
         except IndexError:
             return True
 
-    def is_miel(self, x, y):
-        print("x,y:", x, y)
-        print("player x, y:", Player.current_pos[0], Player.current_pos[1])
-        return x == Player.current_pos[0] and y == Player.current_pos[1]
-
-
     def is_door(self, x, y, direction):
         return (x == 0 and direction == "left") \
                or (x == ROOM_DIM[0] - 1 and direction == "right") \
