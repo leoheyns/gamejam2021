@@ -17,7 +17,8 @@ class Player(pygame.sprite.Sprite):
 
         self.size = list(map(lambda x: x * SCALE, PLAYERSIZE))
 
-        self.image = pygame.image.load('./sprites/GameJam Miel.png')
+        asset = resource_path('./sprites/GameJam Miel.png')
+        self.image = pygame.image.load(asset)
         self.image = pygame.transform.scale(self.image, self.size)
 
         self.rect = self.image.get_rect()

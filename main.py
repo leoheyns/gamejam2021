@@ -11,7 +11,7 @@ import copy
 FPS = 60
 
 WIN = pygame.display.set_mode((WIDTH * SCALE, HEIGHT * SCALE))
-pygame.display.set_caption("wie dit leest trekt een ad")
+pygame.display.set_caption("Miel Monteur Saves The World!")
 
 world = World()
 timer = Timer(FPS * 60)
@@ -87,7 +87,8 @@ def keydown(event):
             # enemy.reset()
 
 def info():
-    titlescreen = pygame.image.load('sprites/GameJam Info Screen.png')
+    asset = resource_path('sprites/GameJam Info Screen.png')
+    titlescreen = pygame.image.load(asset)
     titlescreen = pygame.transform.scale(titlescreen, (WIDTH * 3, HEIGHT * 3))
     font = pygame.font.SysFont('Comic Sans MS', 30)
     text = "You are the great Miel Monteur. The planet is invaded by minions that emit dangerous sound waves. "
@@ -119,7 +120,8 @@ def info():
 
 
 def intro():
-    titlescreen = pygame.image.load('sprites/GameJam Titel Engels.png')
+    asset = resource_path('sprites/GameJam Titel Engels.png')
+    titlescreen = pygame.image.load(asset)
     titlescreen = pygame.transform.scale(titlescreen, (WIDTH * 3, HEIGHT * 3))
     clock = pygame.time.Clock()
     intro = True
@@ -147,7 +149,8 @@ def intro():
 
 
 def pause():
-    menuscreen = pygame.image.load('sprites/GameJam menu.png')
+    asset = resource_path('sprites/GameJam menu.png')
+    menuscreen = pygame.image.load(asset)
     menuscreen = pygame.transform.scale(menuscreen, (WIDTH * 3, HEIGHT * 3))
     clock = pygame.time.Clock()
     pause = True
@@ -212,7 +215,6 @@ def game():
         input()
         draw()
         update()
-
 
 
 def main():

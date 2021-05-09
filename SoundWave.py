@@ -8,7 +8,8 @@ def round16(num):
 
 
 circles = {}
-WAVE_SOUND = pygame.mixer.Sound('sounds/wave_sound.wav')
+asset = resource_path('sounds/wave_sound.wav')
+WAVE_SOUND = pygame.mixer.Sound(asset)
 WAVE_SOUND.set_volume(0.1)
 
 
