@@ -1,6 +1,7 @@
-from Player import Player
 import pygame
+pygame.mixer.init()
 
+from Player import Player
 from World import World
 from Timer import Timer
 from global_constants import *

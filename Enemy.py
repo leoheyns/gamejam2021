@@ -5,14 +5,14 @@ from SoundWave import SoundWave
 ENEMY = pygame.image.load('sprites/GameJam minion enemy.png')
 ENEMY = pygame.transform.scale(ENEMY, (TILESIZE, TILESIZE))
 
-INTERVAL = 300
+INTERVAL = 240
+
 
 class Enemy:
-
-    def __init__(self, x, y, room):
+    def __init__(self, x, y, room, start_cooldown = 0):
         self.x = x
         self.y = y
-        self.cooldown = 0
+        self.cooldown = start_cooldown
         self.waves = []
         self.room = room
 
@@ -30,7 +30,6 @@ class Enemy:
         if self.cooldown <= 0:
             #todo spawn soundwave
             self.waves.append(SoundWave(round(self.x + 32 // 2), round(self.y + 32 // 2), 16, (255, 0, 0, 75)))
-
             self.cooldown = INTERVAL
         self.cooldown -= 1   
 

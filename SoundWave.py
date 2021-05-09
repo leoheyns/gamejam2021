@@ -8,6 +8,7 @@ def round16(num):
 
 
 circles = {}
+WAVE_SOUND = pygame.mixer.Sound('sounds/wave_sound.wav')
 
 
 def calculate_circles(radius):
@@ -38,6 +39,7 @@ class SoundWave(object):
         self.radius = radius
         self.color = color
         self.scale = scale
+        self.played_sound = False
 
     def on_miel(self, x, y):
         for pixel in self.previous_pixels:
@@ -60,7 +62,12 @@ class SoundWave(object):
     def draw(self, window, room, blits):
         if self.radius // 16 < 2:  # Do not draw if the radius is too small, so it starts outside the enemy
             return
+        
+        if not self.played_sound:
+            self.played_sound = True
+            pygame.mixer.Sound.play(WAVE_SOUND)
 
+        
         if self.count != 0:  # Do not recalculate all lines every frame
             self.draw_previous(window, blits)
             return
