@@ -40,7 +40,6 @@ class Player(pygame.sprite.Sprite):
             self.current_pos[1] = self.current_pos[1] + y
 
 
-        print(self.current_pos)
 
 
     def _can_move(self, toX, toY):
@@ -80,13 +79,15 @@ class Player(pygame.sprite.Sprite):
             world.move(2)
 
     def move_right(self, wall, world):
-        if not wall: self._move(1, 0, world)
+        if not wall:
+            self._move(1, 0, world)
         if world.get_current_room().is_door(*self.current_pos): 
             self.move_door(1)
             world.move(1)
 
     def move_left(self, wall, world):
-        if not wall: self._move(-1, 0, world)
+        if not wall:
+            self._move(-1, 0, world)
         if world.get_current_room().is_door(*self.current_pos):
             self.move_door(3)
             world.move(3)

@@ -83,6 +83,38 @@ def keydown(event):
     if event.key == pygame.K_ESCAPE:
         pause()
 
+def info():
+    titlescreen = pygame.image.load('sprites/GameJam Info Screen.png')
+    titlescreen = pygame.transform.scale(titlescreen, (WIDTH * 3, HEIGHT * 3))
+    font = pygame.font.SysFont('Comic Sans MS', 30)
+    text = "You are the great Miel Monteur. The planet is invaded by minions that emit dangerous sound waves. "
+
+
+    textsurface = font.render(text, False, (255, 255, 255))
+    text2 = "You only have one weapon, a wall that you can put between yourself and the sound wave."
+    textsurface1 = font.render(text2, False, (255, 255, 255))
+    text3 = "Collect the four instruments on the map and destroy the minions."
+    textsurface2 = font.render(text3, False, (255, 255, 255))
+    clock = pygame.time.Clock()
+    info = True
+    while info:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                x, y = pygame.mouse.get_pos()
+                if 1368 <= x <= 1500:
+                    if 13 <= y <= 126:
+                        return
+        WIN.blit(titlescreen, (0, 0))
+        WIN.blit(textsurface, (80, HEIGHT * 1.2))
+        WIN.blit(textsurface1, (80, (HEIGHT * 1.2)+50))
+        WIN.blit(textsurface2, (80, (HEIGHT * 1.2)+100))
+        pygame.display.update()
+        clock.tick(FPS)
+
+
 def intro():
     titlescreen = pygame.image.load('sprites/GameJam Titel Engels.png')
     titlescreen = pygame.transform.scale(titlescreen, (WIDTH * 3, HEIGHT * 3))
@@ -95,12 +127,16 @@ def intro():
                 quit()
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 x, y = pygame.mouse.get_pos()
+                print(x, y)
                 if 520 <= y <= 670:
                     if 110 <= x <= 515:
                         return
                     if 1015 <= x <= 1430:
                         pygame.quit()
                         quit()
+                if 710 <= y <= 853:
+                    if 563 <= x <= 972:
+                        info()
 
         WIN.blit(titlescreen, (0, 0))
         pygame.display.update()
@@ -169,8 +205,6 @@ def game():
                 run = False
             if event.type == pygame.KEYDOWN:
                 keydown(event)
-            else:
-                print(event.type)
             if event.type == TIMER_ZERO:
                 print("timer expired")
                 reset()
