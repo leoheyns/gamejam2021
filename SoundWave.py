@@ -1,12 +1,10 @@
 import math
 
-import pygame
-
 from global_constants import *
 
 
 def round16(num):
-    return int(16 * round(float(num)/16))
+    return int(16 * round(float(num) / 16))
 
 
 circles = {}
@@ -27,19 +25,25 @@ def calculate_circles(radius):
         circles[width] = offs
 
 
-class SoundWave (object):
+class SoundWave(object):
     previous_pixels = set()
     remove = False
     vel = 16
     count = 25
     pixel_coords = set()
 
-    def __init__(self, x, y, radius, color, scale = 1):
+    def __init__(self, x, y, radius, color, scale=1):
         self.x = x
         self.y = y
         self.radius = radius
         self.color = color
         self.scale = scale
+
+    def on_miel(self, x, y):
+        for pixel in self.previous_pixels:
+            if (round(pixel[0] / 32), round(pixel[1] / 32)) == (x, y):
+                return True
+        return False
 
     def draw_pixel(self, window, pixel, blits):
 
@@ -53,9 +57,8 @@ class SoundWave (object):
         for pixel in self.previous_pixels:
             self.draw_pixel(window, pixel, blits)
 
-
     def draw(self, window, room, blits):
-        if self.radius//16 < 2:  # Do not draw if the radius is too small, so it starts outside the enemy
+        if self.radius // 16 < 2:  # Do not draw if the radius is too small, so it starts outside the enemy
             return
 
         if self.count != 0:  # Do not recalculate all lines every frame
@@ -63,15 +66,15 @@ class SoundWave (object):
             return
 
         # Variables that store the tile of the center
-        selfx = round16(self.x)//(self.scale * TILESIZE)
-        selfy = round16(self.y)//(self.scale * TILESIZE)
+        selfx = round16(self.x) // (self.scale * TILESIZE)
+        selfy = round16(self.y) // (self.scale * TILESIZE)
 
-        for pixel in circles[self.radius//16]:
+        for pixel in circles[self.radius // 16]:
             draw = True
 
             for i in range(1, 17):  # Do not draw if passing a wall
-                if room.has_wall(math.floor(selfx*TILESIZE + pixel[0]*i/16)//32,
-                                 math.floor(selfy*TILESIZE + pixel[1]*i/16)//32):
+                if room.has_wall(math.floor(selfx * TILESIZE + pixel[0] * i / 16) // 32,
+                                 math.floor(selfy * TILESIZE + pixel[1] * i / 16) // 32):
                     draw = False
                     break
 
@@ -82,11 +85,11 @@ class SoundWave (object):
             self.remove = True
 
         for pixel in self.pixel_coords:
-            if 0 <= pixel[0] <= ROOM_DIM[0]*TILESIZE and 0 <= pixel[1] <= ROOM_DIM[1]*TILESIZE:
+            if 0 <= pixel[0] <= ROOM_DIM[0] * TILESIZE and 0 <= pixel[1] <= ROOM_DIM[1] * TILESIZE:
                 self.draw_pixel(window, pixel, blits)
 
         self.previous_pixels = self.pixel_coords.copy()
         self.pixel_coords.clear()
-    
-    def update():
+
+    def update(self):
         pass

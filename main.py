@@ -1,11 +1,9 @@
 from Player import Player
 import pygame
 
-from SoundWave import calculate_circles, SoundWave
 from World import World
 from Timer import Timer
 from global_constants import *
-from Room import WALL
 import copy
 
 
@@ -20,10 +18,6 @@ timer = Timer(FPS * 60)
 sprite_group = pygame.sprite.Group()
 player = Player(world)
 sprite_group.add(player)
-
-waves = []
-SOUNDWAVE = pygame.USEREVENT+2
-
 
 def draw():
     temp_win = pygame.Surface((WIDTH, HEIGHT))
@@ -42,11 +36,16 @@ def update():
     timer.update()
     world.update()
 
+
 def reset():
     timer.reset()
     world.reset()
     player.reset()
     timer.start()
+
+    for room in world.room_dict.values():
+        for enemy in room.enemies:
+            enemy.waves = []
 
 
 def input():
@@ -176,8 +175,6 @@ def game():
     clock = pygame.time.Clock()
     run = True
     timer.start()
-    pygame.time.set_timer(SOUNDWAVE, 3000)
-    # waves.append(SoundWave(round(500 + 32 // 2), round(500 + 32 // 2), 16, (255, 0, 0), SCALE))
 
     while run:
         clock.tick(FPS)
@@ -185,11 +182,6 @@ def game():
 
 
         for event in pygame.event.get():
-            if event.type == SOUNDWAVE:
-                x = 500
-                y = 500
-                # waves.append(SoundWave(x, y, 16, (255, 0, 0, 75), SCALE))
-                # # TODO change x, y to location of enemy
             if event.type == pygame.QUIT:
                 run = False
             if event.type == pygame.KEYDOWN:
@@ -197,9 +189,17 @@ def game():
             if event.type == TIMER_ZERO:
                 print("timer expired")
                 reset()
+
+        for enemy in world.get_current_room().enemies:
+            for wave in enemy.waves:
+                if wave.on_miel(player.current_pos[0], player.current_pos[1]):
+                    reset()
+
         input()
         draw()
         update()
+
+
 
 def main():
     pygame.init()

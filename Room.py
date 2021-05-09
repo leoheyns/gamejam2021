@@ -3,6 +3,7 @@ import pygame
 from global_constants import *
 import random
 from Enemy import Enemy
+from Player import Player
 
 WIDTH = ROOM_DIM[0]
 HEIGTH = ROOM_DIM[1]
@@ -120,13 +121,11 @@ class Room:
         grounds = []
         for i in range(WIDTH):
             for j in range(HEIGTH):
-                print(self.background[i,j])
                 if (self.background[i,j] == 1 or self.background[i,j] == 2) & (FREE_SPACES[j][i] == "#"):
                     grounds.append((i,j))
         
         if self.gen_enemies:
             e_count = random.choices([1,2,3], weights=[10,60,30], k=1)[0]
-            print(len(grounds))
             e_poss = random.sample(grounds, e_count)
             for pos in e_poss:
                 self.enemies.append(Enemy(pos[0] * TILESIZE, pos[1] * TILESIZE, self))
