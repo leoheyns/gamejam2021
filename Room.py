@@ -2,6 +2,7 @@ import numpy as np
 import pygame
 from global_constants import *
 import random
+from Enemy import Enemy
 
 WIDTH = ROOM_DIM[0]
 HEIGTH = ROOM_DIM[1]
@@ -24,6 +25,8 @@ SAND_GROUND = pygame.transform.scale(SAND_GROUND, (TILESIZE, TILESIZE))
 WALL = pygame.image.load('sprites/GameJam wall.png')
 WALL = pygame.transform.scale(WALL, (TILESIZE, TILESIZE))
 
+ENEMY = pygame.image.load('sprites/GameJam minion enemy.png')
+ENEMY = pygame.transform.scale(ENEMY, (TILESIZE, TILESIZE))
 
 FREE_SPACES = [
     "#######DD#######",
@@ -37,7 +40,7 @@ FREE_SPACES = [
     "#######DD#######",
     ]
 
-DISTRIBUTION = [2,5,1]
+DISTRIBUTION = [4,15,5]
 TILES = [WALL,GROUND, MOSSY_GROUND]
 
 
@@ -50,13 +53,14 @@ def is_middle_of(i, n):
 class Room:
 
     background = None
+    enemies = None
 
     walls = pygame.sprite.Group()
     doors = []
     door_coords = []
     biome = None
 
-    def __init__(self):
+    def __init__(self, gen_enemies = True):
         self.biome = random.choice([0,1])
         if self.biome == 0:
             self.TILES = [WALL,GROUND, MOSSY_GROUND]
@@ -65,12 +69,12 @@ class Room:
 
         self.doors = [False] * 4
         self.door_coords = [(-1,-1)] * 4
-        pass
+        self.gen_enemies = gen_enemies
 
     def generate(self):
         rand_values = np.random.randint(0, sum(DISTRIBUTION), (WIDTH,HEIGTH))
         self.background = np.zeros_like(rand_values)
-
+        self.enemies = []
         for i in range(WIDTH):
             for j in range(HEIGTH):
                 for k in range(len(DISTRIBUTION)):
@@ -113,6 +117,21 @@ class Room:
                 self.door_coords[1] = (WIDTH-1, i)
             else:
                 self.background[WIDTH-1, i] = 0
+            
+        grounds = []
+        for i in range(WIDTH):
+            for j in range(HEIGTH):
+                print(self.background[i,j])
+                if (self.background[i,j] == 1 or self.background[i,j] == 2) & (FREE_SPACES[j][i] == "#"):
+                    grounds.append((i,j))
+        
+        if self.gen_enemies:
+            e_count = random.choices([2,3,4], weights=[2,2,1], k=1)[0]
+            print(len(grounds))
+            e_poss = random.sample(grounds, e_count)
+            for pos in e_poss:
+                self.enemies.append(Enemy(pos[0] * TILESIZE, pos[1] * TILESIZE, self))
+
         
     def has_wall(self, x, y):
         try:
@@ -129,13 +148,16 @@ class Room:
         return x == 0 or x == ROOM_DIM[0] - 1 or y == 0 or y == ROOM_DIM[1] - 1
 
     def draw(self, WIN):
-        print(self.biome)
         blits = []
         for i in range(WIDTH):
             for j in range(HEIGTH):
                 blits.append((self.TILES[self.background[i,j]], (i * TILESIZE, j * TILESIZE)))
+        
+        for e in self.enemies:
+            e.draw(WIN, blits)
 
         WIN.blits(blits)
 
     def update(self):
-        pass
+        for e in self.enemies:
+            e.update()

@@ -109,7 +109,7 @@ class World:
         # self.rooms[self.current_coords[0]][self.current_coords[1]].draw(WIN)
     
     def update(self):
-        pass
+        self.get_current_room().update()
 
     def get_current_room(self) -> Room:
         return self.room_dict[self.current_coords]
