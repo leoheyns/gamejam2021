@@ -43,3 +43,7 @@ class Enemy:
                     wave.count -= 1
             else:
                 self.waves.remove(wave)
+
+    def reset(self):
+        self.waves = []
+        self.cooldown = 1

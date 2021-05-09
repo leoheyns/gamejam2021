@@ -63,29 +63,29 @@ class Player(pygame.sprite.Sprite):
 
         self.world.move(dir)
 
+        # haal alle golven weg als miel de kamer in gaat
+        for e in self.world.get_current_room().enemies:
+            e.reset()
+
     def move_up(self, wall, world):
         if not wall: self._move(0, -1, world)
         if world.get_current_room().is_door(*self.current_pos, "up"):
             self.move_door(0)
-            # world.move(0)
 
     def move_down(self, wall, world):
         if not wall: self._move(0, 1, world)
         if world.get_current_room().is_door(*self.current_pos, "down"):
             self.move_door(2)
-            # world.move(2)
 
     def move_right(self, wall, world):
         if not wall: self._move(1, 0, world)
         if world.get_current_room().is_door(*self.current_pos, "right"):
             self.move_door(1)
-            # world.move(1)
 
     def move_left(self, wall, world):
         if not wall: self._move(-1, 0, world)
         if world.get_current_room().is_door(*self.current_pos, "left"):
             self.move_door(3)
-            # world.move(3)
 
     def move_door(self, direction):
         if direction == 0:
