@@ -7,11 +7,13 @@ class Player(pygame.sprite.Sprite):
     last_time = 0
     tp_time = 0
 
-    def __init__(self):
+    def __init__(self, world):
         super().__init__()
 
         self.last_time = pygame.time.get_ticks()
         self.tp_time = self.tp_time
+
+        self.world = world
 
         self.size = list(map(lambda x: x * SCALE, PLAYERSIZE))
 
@@ -46,11 +48,10 @@ class Player(pygame.sprite.Sprite):
             return False
         return True
 
-    def _move_to(self, x, y):
+    def _move_to(self, x, y, dir):
         time = pygame.time.get_ticks()
 
-        if time < self.tp_time + 500:
-            print("cant teleport rn")
+        if time < self.tp_time + 300:
             return
 
         self.tp_time = time
@@ -60,44 +61,41 @@ class Player(pygame.sprite.Sprite):
 
         self.current_pos = [x, y]
 
+        self.world.move(dir)
+
+        # haal alle golven weg als miel de kamer in gaat
+        for e in self.world.get_current_room().enemies:
+            e.reset()
+
     def move_up(self, wall, world):
         if not wall: self._move(0, -1, world)
         if world.get_current_room().is_door(*self.current_pos, "up"):
             self.move_door(0)
-            world.move(0)
 
     def move_down(self, wall, world):
         if not wall: self._move(0, 1, world)
         if world.get_current_room().is_door(*self.current_pos, "down"):
             self.move_door(2)
-            world.move(2)
 
     def move_right(self, wall, world):
         if not wall: self._move(1, 0, world)
         if world.get_current_room().is_door(*self.current_pos, "right"):
             self.move_door(1)
-            world.move(1)
 
     def move_left(self, wall, world):
         if not wall: self._move(-1, 0, world)
         if world.get_current_room().is_door(*self.current_pos, "left"):
             self.move_door(3)
-            world.move(3)
 
     def move_door(self, direction):
-        print("move_door")
         if direction == 0:
-            self._move_to(self.current_pos[0], 8)
-            # self._move_to(self.current_pos[0], ROOM_DIM[1] - 1)
+            self._move_to(self.current_pos[0], 8, direction)
         elif direction == 1:
-            self._move_to(0, self.current_pos[1])
-            # self._move_to(1, self.current_pos[1])
+            self._move_to(0, self.current_pos[1], direction)
         elif direction == 2:
-            self._move_to(self.current_pos[0], 0)
-            # self._move_to(self.current_pos[0], 0)
+            self._move_to(self.current_pos[0], 0, direction)
         elif direction == 3:
-            self._move_to((ROOM_DIM[0] - 1), self.current_pos[1])
-            # self._move_to(ROOM_DIM[0] - 1, 0)
+            self._move_to((ROOM_DIM[0] - 1), self.current_pos[1], direction)
 
     def reset(self):
         self.current_pos[0] = 7

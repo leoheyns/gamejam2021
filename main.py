@@ -1,7 +1,9 @@
 from Player import Player
 import pygame
+pygame.mixer.init()
 
-from World import World
+from Player import Player
+from World import World, items
 from Timer import Timer
 from global_constants import *
 import copy
@@ -17,7 +19,7 @@ world = World()
 timer = Timer(FPS * 60)
 
 sprite_group = pygame.sprite.Group()
-player = Player()
+player = Player(world)
 sprite_group.add(player)
 
 
@@ -46,6 +48,13 @@ def reset():
     player.reset()
     timer.start()
 
+    for sound in items.values():
+        pygame.mixer.Sound.stop(sound)
+
+    for room in world.room_dict.values():
+        for enemy in room.enemies:
+            enemy.waves = []
+
 
 def input():
     keys = pygame.key.get_pressed()
@@ -67,14 +76,6 @@ def input():
 
 
 def keydown(event):
-    if event.key == pygame.K_UP:
-        world.move(0)
-    if event.key == pygame.K_RIGHT:
-        world.move(1)
-    if event.key == pygame.K_DOWN:
-        world.move(2)
-    if event.key == pygame.K_LEFT:
-        world.move(3)
     if event.key == pygame.K_ESCAPE:
         pause()
 
@@ -192,7 +193,6 @@ def win():
         clock.tick(FPS)
 
 
-
 def game():
     clock = pygame.time.Clock()
     run = True
@@ -215,6 +215,15 @@ def game():
                 if wave.on_miel(player.current_pos[0], player.current_pos[1]):
                     play_death_video()
                     reset()
+
+        if world.get_current_room() in world.room_items.keys():
+            room = world.get_current_room()
+            if not room.item_found:
+                if (player.current_pos[0], player.current_pos[1]) == \
+                        (round(world.room_items[room][1][0] / 32), round(world.room_items[room][1][1] / 32)):
+                    room.item_found = True
+
+                    items[world.room_items[room][0]].play(-1)
 
         input()
         draw()
