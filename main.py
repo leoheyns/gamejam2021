@@ -15,7 +15,7 @@ WIN = pygame.display.set_mode((WIDTH * SCALE, HEIGHT * SCALE))
 pygame.display.set_caption("wie dit leest trekt een ad")
 
 world = World()
-timer = Timer(FPS * 60)
+timer = Timer(FPS * 5)
 
 sprite_group = pygame.sprite.Group()
 player = Player()
@@ -50,7 +50,9 @@ def update():
 def reset():
     timer.reset()
     world.reset()
+    player.reset()
     timer.start()
+
 
 def input():
     keys = pygame.key.get_pressed()

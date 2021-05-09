@@ -4,6 +4,7 @@ from global_constants import *
 import random
 import pygame
 import math
+from Player import Player
 
 pygame.font.init()
 
@@ -54,7 +55,6 @@ def door_pair(pos1, pos2):
 
 
 class World:
-
     current_coords = (0, 0)
 
     room_dict = {}

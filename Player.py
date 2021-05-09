@@ -3,7 +3,7 @@ import pygame
 
 
 class Player(pygame.sprite.Sprite):
-    current_pos = [4, 4]
+    current_pos = [7, 6]
     last_time = 0
     tp_time = 0
 
@@ -22,7 +22,6 @@ class Player(pygame.sprite.Sprite):
 
         self.rect.x = self.current_pos[0] * TILESIZE * SCALE
         self.rect.y = self.current_pos[1] * TILESIZE * SCALE
-
 
     def _move(self, x, y, world):
         time = pygame.time.get_ticks()
@@ -47,7 +46,6 @@ class Player(pygame.sprite.Sprite):
             return False
         return True
 
-
     def _move_to(self, x, y):
         time = pygame.time.get_ticks()
 
@@ -64,40 +62,45 @@ class Player(pygame.sprite.Sprite):
 
     def move_up(self, wall, world):
         if not wall: self._move(0, -1, world)
-        if world.get_current_room().is_door(*self.current_pos):
+        if world.get_current_room().is_door(*self.current_pos, "up"):
             self.move_door(0)
             world.move(0)
 
     def move_down(self, wall, world):
         if not wall: self._move(0, 1, world)
-        if world.get_current_room().is_door(*self.current_pos):
+        if world.get_current_room().is_door(*self.current_pos, "down"):
             self.move_door(2)
             world.move(2)
 
     def move_right(self, wall, world):
         if not wall: self._move(1, 0, world)
-        if world.get_current_room().is_door(*self.current_pos):
+        if world.get_current_room().is_door(*self.current_pos, "right"):
             self.move_door(1)
             world.move(1)
 
     def move_left(self, wall, world):
         if not wall: self._move(-1, 0, world)
-        if world.get_current_room().is_door(*self.current_pos):
+        if world.get_current_room().is_door(*self.current_pos, "left"):
             self.move_door(3)
             world.move(3)
-
 
     def move_door(self, direction):
         print("move_door")
         if direction == 0:
-            self._move_to(4, 4)
+            self._move_to(self.current_pos[0], 8)
             # self._move_to(self.current_pos[0], ROOM_DIM[1] - 1)
         elif direction == 1:
-            self._move_to(4, 4)
+            self._move_to(0, self.current_pos[1])
             # self._move_to(1, self.current_pos[1])
         elif direction == 2:
-            self._move_to(4, 4)
+            self._move_to(self.current_pos[0], 0)
             # self._move_to(self.current_pos[0], 0)
         elif direction == 3:
-            self._move_to(4, 4)
+            self._move_to((ROOM_DIM[0] - 1), self.current_pos[1])
             # self._move_to(ROOM_DIM[0] - 1, 0)
+
+    def reset(self):
+        self.current_pos[0] = 7
+        self.current_pos[1] = 6
+        self.rect.x = self.current_pos[0] * TILESIZE * SCALE
+        self.rect.y = self.current_pos[1] * TILESIZE * SCALE
