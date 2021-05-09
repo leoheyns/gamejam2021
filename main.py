@@ -93,7 +93,7 @@ def info():
     textsurface = font.render(text, False, (255, 255, 255))
     text2 = "You only have one weapon, a wall that you can put between yourself and the sound wave."
     textsurface1 = font.render(text2, False, (255, 255, 255))
-    text3 = "Collect the four instruments on the map and destroy the minions."
+    text3 = "Collect the four instruments on the map and destroy the evil minions."
     textsurface2 = font.render(text3, False, (255, 255, 255))
     clock = pygame.time.Clock()
     info = True
