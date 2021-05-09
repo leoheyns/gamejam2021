@@ -13,7 +13,7 @@ import moviepy
 FPS = 60
 
 WIN = pygame.display.set_mode((WIDTH * SCALE, HEIGHT * SCALE))
-pygame.display.set_caption("wie dit leest trekt een ad")
+pygame.display.set_caption("Miel Monteur saves the world!")
 
 world = World()
 timer = Timer(FPS * 60)
@@ -37,7 +37,6 @@ def draw():
 
 
 def update():
-    # pygame.sprite.spritecollide(player, )
     timer.update()
     world.update()
 
@@ -160,7 +159,8 @@ def pause():
                         main()
                 if 468 <= x <= 1068:
                     if 450 <= y <= 597:
-                        game()
+                        reset()
+                        return
                 if 602 <= x <= 934:
                     if 644 <= y <= 793:
                         pygame.quit()
@@ -183,7 +183,8 @@ def win():
                 x, y = pygame.mouse.get_pos()
                 if 41 <= x <= 539:
                     if 532 <= y <= 676:
-                        main()
+                        reset()
+                        return
                 if 1021 <= x <= 1430:
                     if 530 <= y <= 679:
                         pygame.quit()
@@ -224,6 +225,15 @@ def game():
                     room.item_found = True
 
                     items[world.room_items[room][0]].play(-1)
+
+        winner = True
+
+        for room in world.room_items.keys():
+            if not room.item_found:
+                winner = False
+
+        if winner:
+            win()
 
         input()
         draw()
