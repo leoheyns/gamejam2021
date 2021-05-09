@@ -2,7 +2,7 @@ import pygame
 pygame.mixer.init()
 
 from Player import Player
-from World import World
+from World import World, items
 from Timer import Timer
 from global_constants import *
 import copy
@@ -43,6 +43,9 @@ def reset():
     world.reset()
     player.reset()
     timer.start()
+
+    for sound in items.values():
+        pygame.mixer.Sound.stop(sound)
 
     for room in world.room_dict.values():
         for enemy in room.enemies:
@@ -183,8 +186,6 @@ def game():
     while run:
         clock.tick(FPS)
 
-
-
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
@@ -198,6 +199,15 @@ def game():
             for wave in enemy.waves:
                 if wave.on_miel(player.current_pos[0], player.current_pos[1]):
                     reset()
+
+        if world.get_current_room() in world.room_items.keys():
+            room = world.get_current_room()
+            if not room.item_found:
+                if (player.current_pos[0], player.current_pos[1]) == \
+                        (round(world.room_items[room][1][0] / 32), round(world.room_items[room][1][1] / 32)):
+                    room.item_found = True
+
+                    items[world.room_items[room][0]].play(-1)
 
         input()
         draw()
