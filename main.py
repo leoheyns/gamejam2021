@@ -168,6 +168,30 @@ def pause():
         pygame.display.update()
         clock.tick(FPS)
 
+def win():
+    menuscreen = pygame.image.load('sprites/GameJam win.png')
+    menuscreen = pygame.transform.scale(menuscreen, (WIDTH * 3, HEIGHT * 3))
+    clock = pygame.time.Clock()
+    win = True
+    while win:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                x, y = pygame.mouse.get_pos()
+                if 41 <= x <= 539:
+                    if 532 <= y <= 676:
+                        main()
+                if 1021 <= x <= 1430:
+                    if 530 <= y <= 679:
+                        pygame.quit()
+                        quit()
+        WIN.blit(menuscreen, (0, 0))
+        pygame.display.update()
+        clock.tick(FPS)
+
+
 
 def game():
     clock = pygame.time.Clock()
